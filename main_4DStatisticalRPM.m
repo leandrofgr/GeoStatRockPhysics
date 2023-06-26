@@ -1,5 +1,5 @@
 
-close all
+%close all
 clear all
 
 load('data_2TimeLapses.mat')
@@ -25,7 +25,7 @@ hd(1) = (max(AIdomain)-min(AIdomain))/h;
 hd(2) = (max(VPVSdomain)-min(VPVSdomain))/h;
 
 
-N_SubSamp = 10000;
+N_SubSamp = 2000;
 
 indices_highSat = find(saturation10yrs>0.85);
 indices_highSat = indices_highSat(randperm( numel(indices_highSat), N_SubSamp ));
@@ -46,7 +46,9 @@ data_VPVS = VPVS10yrs(:,:,5);
 dcond = [data_AI(:) data_VPVS(:) ];
 ns = size(dcond,1);
 
+tic
 Ppost_classic = RockPhysicsKDEInversion(mtrain, dtrain, mdomain, ddomain, dcond, hm, hd);
+toc
 
 for i=1:ns
     Ppostjoint=reshape(Ppost_classic(i,:),length(phidomain),length(swdomain));
@@ -130,8 +132,9 @@ data_VPVS_10yrs = VPVS10yrs(:,:,slice);
 dcond = [data_AI_5yrs(:) data_AI_10yrs(:) data_VPVS_5yrs(:) data_VPVS_10yrs(:) ];
 ns = size(dcond,1);
 
+tic
 Ppost = RockPhysicsKDEInversion(single(mtrain), single(dtrain), single(mdomain), single(ddomain), single(dcond), hm, hd);
-
+toc
 
 for i=1:ns
     Ppostjoint=reshape(Ppost(i,:),length(phidomain),length(swdomain),length(swdomain));

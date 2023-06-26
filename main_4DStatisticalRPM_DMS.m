@@ -25,7 +25,7 @@ hd(1) = (max(AIdomain)-min(AIdomain))/h;
 hd(2) = (max(VPVSdomain)-min(VPVSdomain))/h;
 
 
-N_SubSamp = 10000;
+N_SubSamp = 2000;
 
 indices_highSat = find(saturation10yrs>0.85);
 indices_highSat = indices_highSat(randperm( numel(indices_highSat), N_SubSamp ));
@@ -45,7 +45,9 @@ data_AI = acousticimpedance10yrs(:,:,5);
 data_VPVS = VPVS10yrs(:,:,5);
 dcond = [data_AI(:) data_VPVS(:) ];
 
+tic
 inverted_properties = RockPhysicsKDEInversion_DMS(mtrain, dtrain, dcond, 25);
+toc
 
 Phimap = reshape(inverted_properties(:,1),150,200);
 Swmap = reshape(inverted_properties(:,2),150,200);
@@ -116,7 +118,9 @@ data_VPVS_10yrs = VPVS10yrs(:,:,slice);
 dcond = [data_AI_5yrs(:) data_AI_10yrs(:) data_VPVS_5yrs(:) data_VPVS_10yrs(:) ];
 ns = size(dcond,1);
 
+tic
 inverted_properties = RockPhysicsKDEInversion_DMS(mtrain, dtrain, dcond, 25);
+toc
 
 Phimap = reshape(inverted_properties(:,1),150,200);
 Sw1map = reshape(inverted_properties(:,2),150,200);
