@@ -4,7 +4,7 @@
 % results with different parameterization we should use the same dataset.
 % In this case, the following 2 lines should be commented. 
 read_UNISIM
-close all
+%close all
 
 %criticalporo = 0.3;
 
@@ -45,39 +45,38 @@ VPVS_train24 = Vp./Vs;
 mtrain = [Phi_train , sw_train13, sw_train24];
 dtrain = [Ip_train13, VPVS_train13, Ip_train24, VPVS_train24];
 
-figure
-subplot(211)
-histogram(POR,'Normalization','probability')
-set(gca,'YScale','log')
-xlabel('Reference Porosity')
-title('Training vs reference')
-subplot(212)
-histogram(Phi_train,'Normalization','probability')
-set(gca,'YScale','log')
-xlabel('Training Porosity')
+% figure
+% subplot(211)
+% histogram(POR,'Normalization','probability')
+% set(gca,'YScale','log')
+% xlabel('Reference Porosity')
+% title('Training vs reference')
+% subplot(212)
+% histogram(Phi_train,'Normalization','probability')
+% set(gca,'YScale','log')
+% xlabel('Training Porosity')
 
+% figure
+% subplot(121)
+% plot(Ip_train13,VPVS_train13,'k.')
+% hold all
+% plot(Ip13,VPVS13,'b.')
+% title('Training vs reference')
+% subplot(122)
+% plot(Ip_train24,VPVS_train24,'k.')
+% hold all
+% plot(Ip24,VPVS24,'b.')
 
-figure
-subplot(121)
-plot(Ip_train13,VPVS_train13,'k.')
-hold all
-plot(Ip13,VPVS13,'b.')
-title('Training vs reference')
-subplot(122)
-plot(Ip_train24,VPVS_train24,'k.')
-hold all
-plot(Ip24,VPVS24,'b.')
-
-figure
-subplot(121)
-plot(Phi_train,sw_train13,'k.')
-hold all
-plot(Phi,Sw13,'b.')
-title('Training vs reference')
-subplot(122)
-plot(Phi_train,sw_train24,'k.')
-hold all
-plot(Phi,Sw24,'b.')
+% figure
+% subplot(121)
+% plot(Phi_train,sw_train13,'k.')
+% hold all
+% plot(Phi,Sw13,'b.')
+% title('Training vs reference')
+% subplot(122)
+% plot(Phi_train,sw_train24,'k.')
+% hold all
+% plot(Phi,Sw24,'b.')
 
 %% INVERSION 
 

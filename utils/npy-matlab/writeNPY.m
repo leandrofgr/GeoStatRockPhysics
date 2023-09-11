@@ -16,7 +16,7 @@ dataType = class(var);
 header = constructNPYheader(dataType, shape);
 
 fid = fopen(filename, 'w');
-fwrite(fid, header, 'uint8');
+fwrite(fid, header, 'single');
 fwrite(fid, var, dataType);
 fclose(fid);
 

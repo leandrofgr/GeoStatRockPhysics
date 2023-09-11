@@ -20,7 +20,7 @@ SW24(isnan(POR)) = nan;
 % 3D CASE:
 %Phi = POR;
 %Sw13 = SW13;
-%Sw24 = SW24
+%Sw24 = SW24;
 
 % 2D CASE:
 Phi = POR(:,:,20);
@@ -35,7 +35,7 @@ std_rho = 0.05;
 if length(size(Sw24)) == 2
     correlation_function = construct_correlation_function_beta(20,10,Phi,2);
 else
-    correlation_function = construct_correlation_function_beta(2,10,Phi,2);
+    correlation_function = construct_correlation_function_beta(20,10,Phi,2);
 end
 
 [Vp, Vs, Rho] = RPM_unisim(Phi, Sw13, criticalporo );
@@ -60,19 +60,19 @@ VPVS24 = Vp./Vs;
 % data
 figure
 ax1 = subplot(221);
-imagesc(Ip13)
+imagesc(Ip13(:,:,1))
 caxis([4000 16000])
 title('IP13')
 ax2 = subplot(222);
-imagesc(VPVS13)
+imagesc(VPVS13(:,:,1))
 caxis([1.35 1.75])
 title('VPVS13')
 ax3 = subplot(223);
-imagesc(Ip24)
+imagesc(Ip24(:,:,1))
 caxis([4000 16000])
 title('IP24')
 ax4 = subplot(224);
-imagesc(VPVS24)
+imagesc(VPVS24(:,:,1))
 caxis([1.35 1.75])
 title('VPVS24')
 linkaxes([ax1, ax2, ax3, ax4], 'xy');
@@ -90,6 +90,6 @@ grid
 
 figure
 ax1 = subplot(121);
-imagesc(Sw24)
+imagesc(Sw24(:,:,1))
 ax2 = subplot(122);
-imagesc(VPVS24 - VPVS13)
+imagesc(VPVS24(:,:,1) - VPVS13(:,:,1))
