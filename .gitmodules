@@ -1,0 +1,3 @@
+[submodule "SeReM"]
+	path = SeReM
+	url = https://github.com/leandrofgr/SeReM.git
