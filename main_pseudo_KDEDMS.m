@@ -2,6 +2,7 @@
 
 %% Creat synthetic well data
 addpath(genpath('SeReM'))
+addpath(genpath('utils'))
 load('data\pseudowell.mat')
 
 Depth = WELL.curves(:,1);
