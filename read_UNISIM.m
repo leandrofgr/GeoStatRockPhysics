@@ -63,7 +63,7 @@ VPVS24 = Vp./Vs;
 % Create wells strusct in main struct 
 clear WELLS 
 for well = 1:size(WellPositionInGrid,1)
-   WELLS(well) = struct('name',WellPositionInGrid{well,1},'i',WellPositionInGrid{well,2},'j',WellPositionInGrid{well,3})
+   WELLS(well) = struct('name',WellPositionInGrid{well,1},'i',WellPositionInGrid{well,2},'j',WellPositionInGrid{well,3});   
 end
    
 [WELLS] = add_welllog_from_cube(WELLS,Phi,'Phi');
@@ -84,7 +84,7 @@ end
 figure 
 imagesc(Sw24(:,:,1))
 hold all
-plot(WellPositionInGrid{1,3},WellPositionInGrid{1,2},'r+','LineWidth',2)
+plot(WellPositionInGrid{:,3},WellPositionInGrid{:,2},'r+','LineWidth',2)
 
 
 % data
