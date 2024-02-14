@@ -72,8 +72,8 @@ end
 
 [WELLS] = add_welllog_from_cube(WELLS,Ip13,'Ip13');
 [WELLS] = add_welllog_from_cube(WELLS,Ip24,'Ip24');
-[WELLS] = add_welllog_from_cube(WELLS,Ip24,'VPVS13');
-[WELLS] = add_welllog_from_cube(WELLS,Ip24,'VPVS24');
+[WELLS] = add_welllog_from_cube(WELLS,VPVS13,'VPVS13');
+[WELLS] = add_welllog_from_cube(WELLS,VPVS24,'VPVS24');
 
 
     

@@ -32,7 +32,7 @@ for well=1:length(WELLS)
     plot(WELLS(well).j,WELLS(well).i,'r+','LineWidth',2)
     text(WELLS(well).j,WELLS(well).i,WELLS(well).name)
     cond_pos = [cond_pos ; WELLS(well).i WELLS(well).j];
-    cond_value = [  cond_value ; WELLS(well).Ip13 WELLS(well).Ip24 WELLS(well).VPVS13 WELLS(well).VPVS24 WELLS(well).Phi WELLS(well).Sw13 WELLS(well).Sw24  ];
+    cond_value = [  cond_value ; WELLS(well).Ip13 WELLS(well).VPVS13 WELLS(well).Ip24 WELLS(well).VPVS24 WELLS(well).Phi WELLS(well).Sw13 WELLS(well).Sw24  ];
 end
 
 %criticalporo = 0.3;
@@ -123,7 +123,7 @@ dcond = [Ip13(:), VPVS13(:), Ip24(:), VPVS24(:)];
 
 ref_variables = [dtrain mtrain];
 [I,J,K] = size(Ip13); 
-[logs_simulated_all] = DMS(I, J, 15, 'sph', [0 0 0], 0.1, ref_variables, cond_pos, cond_value, 1);
+[logs_simulated_all] = DMS(I, J, 15, 'sph', [0 0 0], 0.1, ref_variables, cond_pos, cond_value, 1, []);
 simulation_DMS = logs_simulated_all{1};
 
 generate_histograms(ref_variables)
