@@ -53,7 +53,7 @@ for i = 1:1:size(dcond,1)
         end
         if size(reference_variables_filtered,1) > 0
             for j=1:number_conditioned
-                mean_marginal(i,j) = mean(reference_variables_filtered(:,number_conditional+j));
+                mean_marginal(i,j) = median(reference_variables_filtered(:,number_conditional+j));
                 if nargin > 4
                     sorting = randperm( size(reference_variables_filtered,1), min([ size(reference_variables_filtered,1) n_posterior_pts]) ) ;
                     conditioned_data(i,j,1:length(sorting)) = reference_variables_filtered(sorting,number_conditional+j);
@@ -63,7 +63,7 @@ for i = 1:1:size(dcond,1)
             
             num_point_without_statistic = num_point_without_statistic + 1;
             disp('Not enough data for contitioning for ' + string(num_point_without_statistic) + ' The method will draw from the marginal. It might generate artifacts. Consider using KDE to increase the number of data points or increasing the grid_size parameter.')
-            mean_marginal(i,1:number_conditioned) = mean(reference_variables(:,number_conditional+1:end));
+            mean_marginal(i,1:number_conditioned) = median(reference_variables(:,number_conditional+1:end));
             %conditioned_data(i,j,:)
             
         end
