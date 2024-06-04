@@ -3,7 +3,7 @@
 addpath(genpath('utils'))
 addpath(genpath('SeReM'))
 
-criticalporo = 0.3;
+criticalporo = 0.4;
 
 PermK = readNPY('data/UNISIM/PermK.npy');
 NETGROSS = readNPY('data/UNISIM/NETGROSS.npy');
@@ -30,9 +30,9 @@ Sw13 = SW13(:,:,20);
 Sw24 = SW24(:,:,20);
 
 %% Running RPM to simulate the observed data (elastic properties) for inversion 
-std_vp = 50;
-std_vs = 25;
-std_rho = 0.05;
+std_vp = 1.5*50;
+std_vs = 1.5*25;
+std_rho = 1.5*0.05;
 %correlation function to add an spatial correlated noise
 if length(size(Sw24)) == 2
     correlation_function = construct_correlation_function_beta(20,10,Phi,2);
@@ -85,7 +85,7 @@ figure
 imagesc(Sw24(:,:,1))
 hold all
 plot(WellPositionInGrid{:,3},WellPositionInGrid{:,2},'r+','LineWidth',2)
-
+title('Well positions')
 
 % data
 figure
@@ -121,5 +121,7 @@ grid
 figure
 ax1 = subplot(121);
 imagesc(Sw24(:,:,1))
+plot_wells(WELLS)
 ax2 = subplot(122);
 imagesc(VPVS24(:,:,1) - VPVS13(:,:,1))
+plot_wells(WELLS)
