@@ -33,6 +33,8 @@ VPVS24_ = VPVS24;
 % VPVS13_ = VPVS13(Imin:Imin + Size-1,Jmin:Jmin+Size-1);
 % VPVS24_ = VPVS24(Imin:Imin + Size-1,Jmin:Jmin+Size-1);
 
+[I,J] = size(Phi_);
+
 cond_pos = [];
 cond_value = [];
 
@@ -187,7 +189,7 @@ names = {'\phi', 's_{w1}', 's_{w2}','I_{p1}','\alpha / \beta_1',  'I_{p2}','\alp
 generate_histograms([mtrain dtrain],[0 1500],names)
 sgtitle('Joint distribution by Monte Carlo sampling');
 
-dcond = [Ip13_(:), VPVS13_(:), Ip24_(:), VPVS24_(:)];
+cond_variables = [Ip13_(:), VPVS13_(:), Ip24_(:), VPVS24_(:)];
 
 %% INVERSION - DMS for computing the mean value and the distributions. Kriging must be done as a prior. 
 
@@ -280,7 +282,6 @@ sgtitle('Median models');
 
 %% INVERSION -  DMS for sampling spatially correlated simulations with conditioning of hard data
 n_sims = 100;
-cond_variables = dcond;
 [I,J,K] = size(Ip13_); 
 [logs_simulated_all] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, cond_pos, cond_value, n_sims, cond_variables );
 
