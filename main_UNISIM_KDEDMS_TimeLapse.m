@@ -6,7 +6,11 @@ addpath(genpath('utils'))
 addpath(genpath('SeReM'))
 
 %% read UNISIM data and apply optional crops for testing
-%read_UNISIM
+% To simulate new elastic properties:
+%read_UNISIM 
+
+% To read the same dataset used in the article: 
+load('data\UNISIM\data_CAGEO.mat')
 
 Phi_ = Phi;
 Sw13_ = Sw13;
@@ -17,6 +21,7 @@ VPVS13_ = VPVS13;
 VPVS24_ = VPVS24;
 
 % % Cropping
+
 % Imin = 60;
 % Jmin = 50;
 % Size = 80;
