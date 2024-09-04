@@ -147,7 +147,7 @@ generate_histograms([mtrain dtrain])
 % sgtitle('Traditional Implementation');
 
 
-%% Non-parametric case  - DMS approach 
+%% Non-parametric case  - DMS approach - Simulating order Phi, vchaly, sw
 I = length(Depth);
 J = 1;
 
@@ -172,6 +172,90 @@ DME_result_sim = cat(4, DME_result_sim{:});
 Phi_sim_uncond = squeeze(DME_result_sim(4,:,:,:));
 Vc_sim_uncond = squeeze(DME_result_sim(5,:,:,:));
 Sw_sim_uncond = squeeze(DME_result_sim(6,:,:,:));
+
+% plots
+figure
+% ELASTIC PROPERTIES
+subplot(161)
+plot(Vp, Depth, 'k', 'LineWidth', 2);  
+ylabel('Depth (m)');
+set(gca,'Ydir','reverse')
+grid
+xlabel('P-wave velocity (km/s)'); 
+subplot(162)
+plot(Vs, Depth, 'k', 'LineWidth', 2);  
+set(gca,'Ydir','reverse')
+grid
+xlabel('S-wave velocity (km/s)'); 
+subplot(163)
+plot(Rho, Depth, 'k', 'LineWidth', 2);  
+set(gca,'Ydir','reverse')
+xlabel('Density (g/cm^3)'); 
+grid
+
+% INVERSION 
+subplot(164)
+plot(Phi_sim_uncond,Depth,'Color', [0.6, 0.6, 0.6])
+hold on; %shading interp; colorbar; 
+plot(Phi, Depth, 'k', 'LineWidth', 2);  
+plot(Phi_median_uncond, Depth, 'r', 'LineWidth', 2);
+xlabel('Porosity (v/v)');  xlim([0 0.4]);
+set(gca,'Ydir','reverse')
+grid
+subplot(165)
+plot(Clay, Depth, 'k', 'LineWidth', 2); 
+hold on; %shading interp; colorbar; 
+plot(Vc_median_uncond, Depth, 'r', 'LineWidth', 2);
+plot(Vc_sim_uncond,Depth,'Color', [0.7, 0.7, 0.7])
+plot(Clay, Depth, 'k', 'LineWidth', 2); 
+plot(Vc_median_uncond, Depth, 'r', 'LineWidth', 2);
+xlabel('Clay volume (v/v)'); xlim([0 0.8]);
+set(gca,'Ydir','reverse')
+grid
+legend('Reference','Median','Simulations')
+subplot(166)
+plot(Sw_sim_uncond,Depth,'Color', [0.7, 0.7, 0.7])
+hold on; %shading interp; colorbar; 
+plot(Sw, Depth, 'k', 'LineWidth', 2); 
+plot(Sw_median_uncond, Depth, 'r', 'LineWidth', 2);
+xlabel('Water saturation (v/v)');  xlim([0 1]);
+set(gca,'Ydir','reverse')
+grid
+% subplot(144)
+% imagesc(1,Depth, Facies3)
+% %pcolor(swdomain, Depth, Ppostsw); 
+% set(gca,'Ydir','reverse')
+% grid
+%hbc=colorbar; title(hbc, 'Probability');
+sgtitle('DMS Approach')
+
+
+%% Non-parametric case  - DMS approach - Simulating order sw, vchaly, Phi
+I = length(Depth);
+J = 1;
+
+mtrain = [Sw_sim Clay_sim Phi_sim];
+reference_variables = [dtrain mtrain];
+[reference_variables] = extend_dateset_KDE(reference_variables,5,0.05);
+
+% Median model:
+tic
+[DME_result_median] = DMS(I, J, 30, 'gau', [0 0 0], 0.06, reference_variables, [], [], 1, dcond );
+toc
+DME_result_median = cat(4, DME_result_median{:});
+Phi_median_uncond = squeeze(DME_result_median(6,:,:,:));
+Vc_median_uncond = squeeze(DME_result_median(5,:,:,:));
+Sw_median_uncond = squeeze(DME_result_median(4,:,:,:));
+
+% % Simulaitons:
+n_sims = 50;
+tic
+[DME_result_sim] = DMS(I, J, 30, 'gau', [0 0 0], 0.06, reference_variables, [], [], n_sims, dcond );
+toc
+DME_result_sim = cat(4, DME_result_sim{:});
+Phi_sim_uncond = squeeze(DME_result_sim(6,:,:,:));
+Vc_sim_uncond = squeeze(DME_result_sim(5,:,:,:));
+Sw_sim_uncond = squeeze(DME_result_sim(4,:,:,:));
 
 % plots
 figure
