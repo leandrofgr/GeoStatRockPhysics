@@ -5,6 +5,9 @@
 %% Load data
 addpath(genpath('SeReM'));
 load SeReM/Data/data4.mat
+load data/cmap_3facies.mat
+Facies3(Facies3==3) = 1.1;
+Facies3(Facies3==1) = 3;
 
 %% Monte carlo sampling of the joint distribution
 % Prior of petrophysical properties p(r) with 2 facies:
@@ -175,26 +178,30 @@ Sw_sim_uncond = squeeze(DME_result_sim(6,:,:,:));
 
 % plots
 figure
-% ELASTIC PROPERTIES
-subplot(161)
-plot(Vp, Depth, 'k', 'LineWidth', 2);  
+subplot(171)
+imagesc(1,Depth,Facies3)
+colormap(cmap_3facies)
 ylabel('Depth (m)');
+
+% ELASTIC PROPERTIES
+subplot(172)
+plot(Vp, Depth, 'k', 'LineWidth', 2);  
 set(gca,'Ydir','reverse')
 grid
 xlabel('P-wave velocity (km/s)'); 
-subplot(162)
+subplot(173)
 plot(Vs, Depth, 'k', 'LineWidth', 2);  
 set(gca,'Ydir','reverse')
 grid
 xlabel('S-wave velocity (km/s)'); 
-subplot(163)
+subplot(174)
 plot(Rho, Depth, 'k', 'LineWidth', 2);  
 set(gca,'Ydir','reverse')
 xlabel('Density (g/cm^3)'); 
 grid
 
 % INVERSION 
-subplot(164)
+subplot(175)
 plot(Phi_sim_uncond,Depth,'Color', [0.6, 0.6, 0.6])
 hold on; %shading interp; colorbar; 
 plot(Phi, Depth, 'k', 'LineWidth', 2);  
@@ -202,7 +209,7 @@ plot(Phi_median_uncond, Depth, 'r', 'LineWidth', 2);
 xlabel('Porosity (v/v)');  xlim([0 0.4]);
 set(gca,'Ydir','reverse')
 grid
-subplot(165)
+subplot(176)
 plot(Clay, Depth, 'k', 'LineWidth', 2); 
 hold on; %shading interp; colorbar; 
 plot(Vc_median_uncond, Depth, 'r', 'LineWidth', 2);
@@ -213,7 +220,7 @@ xlabel('Clay volume (v/v)'); xlim([0 0.8]);
 set(gca,'Ydir','reverse')
 grid
 legend('Reference','Median','Simulations')
-subplot(166)
+subplot(177)
 plot(Sw_sim_uncond,Depth,'Color', [0.7, 0.7, 0.7])
 hold on; %shading interp; colorbar; 
 plot(Sw, Depth, 'k', 'LineWidth', 2); 
