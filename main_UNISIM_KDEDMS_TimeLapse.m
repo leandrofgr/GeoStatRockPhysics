@@ -63,7 +63,6 @@ for well=1:length(WELLS)
 end
 
 % WELLS(list2delete) = [];
-
 referece_variables = [Ip13(:) VPVS13(:) Ip24(:) VPVS24(:) Phi(:) Sw13(:) Sw24(:) ];
 %generate_histograms(referece_variables)
 generate_histograms([Phi(:) Sw13(:) Sw24(:) Ip13(:) VPVS13(:) Ip24(:) VPVS24(:) ])
@@ -147,12 +146,16 @@ sgtitle('Elastic properties');
 
 
 %% PRIOR SAMPLING
+load('.\data\UNISIM\well_logs_table.mat')
+
 %Porous and no porous
 n_sim = 100000;
 Phi_train = 0.1 + 0.05*randn(n_sim/2,1);
 Phi_train = [ Phi_train ; 0.25 + 0.05*randn(n_sim/2,1) ];
 sw_train13 = rand(n_sim,1);
 sw_train24 = rand(n_sim,1);
+facies_train(1:n_sim/2) = 1;
+facies_train(n_sim/2+1:n_sim) = 2;
 
 % Include Shale
 Phi_train = [ Phi_train ; 0.02 + 0.005*randn(n_sim/2,1) ];
@@ -162,6 +165,8 @@ Phi_train(Phi_train<0) = 0.001;
 Phi_train(Phi_train>0.4) = 0.4;
 sw_train13(sw_train13>1) = 0.999;
 sw_train24(sw_train24>1) = 0.999;
+facies_train(n_sim+1:3*n_sim/2) = 3;
+facies_train = facies_train';
 
 % Simulate observed data (elastic properties) with noise
 [Vp, Vs, Rho] = RPM_unisim(Phi_train, sw_train13, criticalporo );
@@ -190,6 +195,7 @@ generate_histograms([mtrain dtrain],[0 1500],names)
 sgtitle('Joint distribution by Monte Carlo sampling');
 
 cond_variables = [Ip13_(:), VPVS13_(:), Ip24_(:), VPVS24_(:)];
+
 
 %% INVERSION - DMS for computing the mean value and the distributions. Kriging must be done as a prior. 
 
