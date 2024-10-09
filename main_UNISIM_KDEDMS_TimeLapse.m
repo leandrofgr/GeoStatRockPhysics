@@ -204,16 +204,18 @@ cond_variables = [Ip13_(:), VPVS13_(:), Ip24_(:), VPVS24_(:)];
 %Sw13_inverted = reshape(inverted_properties(:,2), size(Phi_));
 %Sw24_inverted = reshape(inverted_properties(:,3), size(Phi_));
 
-% When running with n_sim=1, it considers phi(g) = 0.5 to estimate the median model
-[DME_result_median_uncond] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, [], [], 1, cond_variables );
+% When running with n_sim=1, cond_pos = [] and cond_value = [], it considers phi(g) = 0.5 to estimate the median model
+n_sim=1;
+[DME_result_median_uncond] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, [], [], n_sim, cond_variables );
 
 DME_result_median_uncond = cat(4, DME_result_median_uncond{:});
 Phi_median_uncond = squeeze(DME_result_median_uncond(5,:,:,:));
 Sw13_median_uncond = squeeze(DME_result_median_uncond(6,:,:,:));
 Sw24_median_uncond = squeeze(DME_result_median_uncond(7,:,:,:));
 
-% When running with n_sim=1, cond_pos and cond_value, it considers phi(g) as the kriging of the transformed hard data conditioning
-[DME_result_median_cond] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, cond_pos, cond_value, 1, cond_variables );
+% When running with n_sim~=1, cond_pos ~= [] and cond_value ~= [], it considers g as a geostatistica simulation conditioned to the transformed hard data cond_value
+n_sim=1;
+[DME_result_median_cond] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, cond_pos, cond_value, n_sim, cond_variables );
 
 DME_result_median_cond = cat(4, DME_result_median_cond{:});
 Phi_median_cond = squeeze(DME_result_median_cond(5,:,:,:));
@@ -287,9 +289,9 @@ sgtitle('Median models');
 
 
 %% INVERSION -  DMS for sampling spatially correlated simulations with conditioning of hard data
-n_sims = 100;
+n_sim = 100;
 [I,J,K] = size(Ip13_); 
-[logs_simulated_all] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, cond_pos, cond_value, n_sims, cond_variables );
+[logs_simulated_all] = DMS(I, J, 35, 'sph', [0 0 0], 0.1, prior_variables, cond_pos, cond_value, n_sim, cond_variables );
 
 logs_simulated_all_ = cat(4, logs_simulated_all{:});
 
@@ -307,9 +309,9 @@ Sw24_mean = squeeze(median(logs_simulated_all_(7,:,:,:),4));
 
 
 %%%% FIGURE - Histograms, reference, prior ans posterior
-simulations2histogram = reshape(logs_simulated_all_, 7,I*J, n_sims);
+simulations2histogram = reshape(logs_simulated_all_, 7,I*J, n_sim);
 for prop = 1:7
-    for sim = 1:n_sims
+    for sim = 1:n_sim
         simulations2histogram(prop,isnan(reshape(Phi_,I*J,1)),sim) = nan;
     end
 end
