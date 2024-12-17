@@ -1,6 +1,6 @@
-# GeoStatRPInv - Non-linear and Non-parametric GeoStatistical rock-physics inversion of elastic properties
+# GeoStatRockPhysics - Non-linear non-parametric geostatistical rock-physics inversion of elastic attributes
 
-This repository contains supplementary material for the submission to Computers & Geosciences titled **Non-linear and Non-parametric Geo-Statistical Rock-Physics Inversion of Elastic Properties**.
+This repository contains supplementary material for the submission to Computers & Geosciences titled **Non-linear non-parametric geostatistical rock-physics inversion of elastic attributes for petrophysical properties using direct multivariate simulation**.
 
 ## Guide
 
